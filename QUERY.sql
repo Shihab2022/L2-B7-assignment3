@@ -54,10 +54,10 @@ CREATE TABLE Bookings (
 -- DATA SEEDING: INSERT SAMPLE DATA INTO USERS
 -- =========================================================================
 INSERT INTO Users (user_id, full_name, email, role, phone_number) VALUES
-(1, 'Tanvir Rahman', 'tanvir@mail.com', 'Football Fan', '+8801711111111'),
-(2, 'Asif Haque', 'asif@mail.com', 'Football Fan', '+8801722222222'),
-(3, 'Sajjad Rahman', 'sajjad@mail.com', 'Ticket Manager', '+8801733333333'),
-(4, 'Jannat Ara', 'jannat@mail.com', 'Football Fan', NULL);
+(166, ' RahmanTanvir', 'tanyviRRr@mail.com', 'Football Fan', '+8801711111111'),
+(266, 'HaqueAsif', 'asifRTyR@mail.com', 'Football Fan', '+8801722222222'),
+(366, 'Sajjad Rahman', 'sajjyad@mail.com', 'Ticket Manager', '+8801733333333'),
+(466, 'Jannat Ara', 'jannyatRE@mail.com', 'Football Fan', NULL);
 
 -- =========================================================================
 -- DATA SEEDING: INSERT SAMPLE DATA INTO MATCHES
@@ -81,3 +81,8 @@ INSERT INTO Bookings (booking_id, user_id, match_id, seat_number, payment_status
 
 
 SELECT match_id ,fixture,ROUND(base_ticket_price) AS base_ticket_price FROM Matches WHERE match_status = 'Available' ;
+
+
+SELECT user_id,full_name ,email  FROM users 
+WHERE full_name ILIKE 'tanvir%' 
+   OR full_name ILIKE '%haque%';
