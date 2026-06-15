@@ -46,7 +46,8 @@ CREATE TABLE Bookings (
     payment_status VARCHAR(20),
     total_cost DECIMAL(10, 2),
     CHECK (total_cost >= 0),
-    CHECK (payment_status IN ('Pending', 'Confirmed', 'Cancelled', 'Refunded'))
+    CHECK (payment_status IN ('Pending', 'Confirmed', 'Cancelled', 'Refunded')),
+    CONSTRAINT uq_match_seat UNIQUE (match_id, seat_number)
 );
 
 
@@ -73,16 +74,30 @@ INSERT INTO Matches (match_id, fixture, tournament_category, base_ticket_price, 
 -- DATA SEEDING: INSERT SAMPLE DATA INTO BOOKINGS
 -- =========================================================================
 INSERT INTO Bookings (booking_id, user_id, match_id, seat_number, payment_status, total_cost) VALUES
-(501, 1, 101, 'A-12', 'Confirmed', 150.00),
-(502, 1, 102, 'B-04', 'Confirmed', 120.00),
-(503, 2, 101, 'A-13', 'Confirmed', 150.00),
-(504, 2, 101, NULL, NULL, 150.00),
-(505, 3, 102, 'C-20', 'Pending', 120.00);
+(081, 166, 101, 'F-12', 'Confirmed', 150.00),
+(288, 266, 102, 'R-04', 'Confirmed', 120.00),
+(388, 366, 101, 'T-13', 'Confirmed', 150.00),
+(488, 466, 101, 'D-08', NULL, 150.00),
+(588, 166, 102, 'W-20', 'Pending', 120.00);
 
+
+-- Query 1: Retrieve all upcoming football matches belonging to the 'Champions League' where the match status is 'Available'.
 
 SELECT match_id ,fixture,ROUND(base_ticket_price) AS base_ticket_price FROM Matches WHERE match_status = 'Available' ;
 
 
+
+-- Query 2: Search for all users whose full names start with 'Tanvir' or contain the phrase 'Haque' (case-insensitive).
+-- Concepts used: LIKE, ILIKE
+
 SELECT user_id,full_name ,email  FROM users 
 WHERE full_name ILIKE 'tanvir%' 
    OR full_name ILIKE '%haque%';
+
+
+-- Query 3: Retrieve all booking records where the payment status is missing (NULL), replacing the empty result with 'Action Required'.
+-- Concepts used: IS NULL, COALESCE
+
+SELECT booking_id, user_id, match_id, COALESCE(payment_status, 'Action Required') AS systematic_status
+FROM Bookings
+WHERE payment_status IS NULL;       
